@@ -160,7 +160,7 @@ For the full description please refer to <<subsec:buffers>>.
     For the full description please refer to <<chapter.device.compiler>>.
 
 [[device-copyable]]device copyable::
-    Data that is shared between the host and the devices must generally have a
+    Data that is shared between the host and the devices should: have a
     type that abides by the restrictions listed in <<sec::device.copyable>> for
     a device copyable type.
 

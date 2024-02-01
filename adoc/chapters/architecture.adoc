@@ -21,7 +21,7 @@ SYCL implementations can provide <<backend>>s for various heterogeneous APIs,
 implementing the SYCL general specification on top of them.
 We refer to this heterogeneous API as the <<backend-api>>.
 The SYCL general specification defines the behavior that all SYCL
-implementations must expose to SYCL users for a SYCL application to behave as
+implementations must: expose to SYCL users for a SYCL application to behave as
 expected.
 
 A function object that can execute on a <<device>> exposed by a <<backend-api>>
@@ -125,7 +125,7 @@ In this case the constructor used for [code]#myQueue# on line 9 is the default
 constructor, which allows the queue to select the best underlying device to
 execute on, leaving the decision up to the runtime.
 
-In SYCL, data that is required within a <<sycl-kernel-function>> must be
+In SYCL, data that is required within a <<sycl-kernel-function>> must: be
 contained within a <<buffer>>, <<image>>, or <<usm>> allocation, as described in
 <<sec:memory.model>>.
 We construct a buffer on line 16.
@@ -155,6 +155,33 @@ specification, and their content is a requirement for this document.
 Programming languages — {cpp}>>, referred to in this specification as the next
 {cpp} specification.
 
+Within this specification, the key words *must*, *required*, *should*,
+*recommended*, *may*, and *optional* are to be interpreted as described in
+https://www.ietf.org/rfc/rfc2119.txt[RFC 2119 - Key words for use in RFCs to
+Indicate Requirement Levels] (https://www.ietf.org/rfc/rfc2119.txt).
+The additional key word *optionally* is an alternate form of *optional*, for
+use where grammatically appropriate.
+
+This key word is highlighted in the specification for clarity.
+In text addressing application developers, their use expresses requirements
+that apply to application behavior.
+In text addressing implementors, their use expresses requirements that apply
+to implementations.
+In text addressing application developers, the additional key words *can*
+and *cannot* are to be interpreted as describing the capabilities of an
+application, as follows:
+
+*can*::
+This word means that the application is able to perform the action
+described.
+
+*cannot*::
+This word means that the API and/or the execution environment provide no
+mechanism through which the application can express or accomplish the action
+described.
+
+These key words are never used in text addressing implementors.
+
 [[sec:nonnormativerefs]]
 == Non-normative notes and examples
 
@@ -174,7 +201,7 @@ Source code examples within the specification are provided to aid with
 understanding, and are non-normative.
 
 In case of any conflict between a non-normative note or source example, and
-normative text within the specification, the normative text must be taken to be
+normative text within the specification, the normative text must: be taken to be
 correct.
 
 [[sec:platformmodel]]
@@ -220,7 +247,7 @@ Two devices exposed via two different backends can map computations differently
 to the same device.
 
 When a SYCL application contains <<sycl-kernel-function>> objects, the SYCL
-implementation must provide an offline compilation mechanism that enables the
+implementation must: provide an offline compilation mechanism that enables the
 integration of the device binaries into the SYCL application.
 The output of the offline compiler can be an intermediate representation, such
 as SPIR-V, that will be finalized during execution or a final device ISA.
@@ -239,9 +266,9 @@ multiple heterogeneous APIs, such as OpenCL.
 
 SYCL implementations enable these target APIs by implementing <<backend, SYCL
 backends>>.
-For a SYCL implementation to be conformant on said <<backend>>, it must execute
+For a SYCL implementation to be conformant on said <<backend>>, it must: execute
 the SYCL generic programming model on the backend.
-All SYCL implementations must provide at least one backend.
+All SYCL implementations must: provide at least one backend.
 
 The present document covers the SYCL generic interface available to all
 <<backend, SYCL backends>>.
@@ -254,10 +281,10 @@ over SYCL implementation documentation.
 When a SYCL user builds their SYCL application, she decides which of the
 <<backend, SYCL backends>> will be used to build the SYCL application.
 This is called the set of _active backends_.
-Implementations must ensure that the active backends selected by the user can be
-used simultaneously by the SYCL implementation at runtime.
+Implementations must: ensure that the active backends selected by the user can
+be used simultaneously by the SYCL implementation at runtime.
 If two backends are available at compile time but will produce an invalid SYCL
-application at runtime, the SYCL implementation must emit a compilation error.
+application at runtime, the SYCL implementation must: emit a compilation error.
 
 A SYCL application built with a number of active backends does not necessarily
 guarantee that said backends can be executed at runtime.
@@ -276,7 +303,7 @@ Once the application is running, users can query what SYCL platforms are
 available.
 SYCL implementations will expose the devices provided by each backend grouped
 into platforms.
-A backend must expose at least one platform.
+A backend must: expose at least one platform.
 
 Under the <<backend>> model, SYCL objects can contain one or multiple references
 to a certain <<backend>> native type.
@@ -403,7 +430,7 @@ The resources managed by SYCL are:
     is attached to a context.
     A context contains a collection of devices that the host can use and manages
     memory objects that can be shared between the devices.
-    Devices belonging to the same <<context>> must be able to access each
+    Devices belonging to the same <<context>> must: be able to access each
     other's global memory using some implementation-specific mechanism.
     A given context can only wrap devices owned by a single platform.
     A context is exposed to the user with a [code]#sycl::context# object.
@@ -425,7 +452,7 @@ functionality as pre-defined kernels.
     These objects provide a way for the application to control the online
     compilation of kernels for devices.
   . <<queue,Queues>>: SYCL kernels execute in command queues.
-    The user must create a [code]#sycl::queue# object, which references an
+    The user must: create a [code]#sycl::queue# object, which references an
     associated context, platform and device.
     The context, platform and device may be chosen automatically, or specified
     by the user.
@@ -454,7 +481,7 @@ function (_k_).
 A <<command-group>> is _submitted_ to a queue when using the
 [code]#sycl::queue::submit# member function.
 
-A *requisite* (_r~i~_) is a requirement that must be fulfilled for a
+A *requisite* (_r~i~_) is a requirement that must: be fulfilled for a
 kernel-function (_k_) to be executed on a particular device.
 For example, a requirement may be that certain data is available on a device, or
 that another command group has finished execution.
@@ -475,7 +502,7 @@ The implementation may not block to check the requisite, and the same check can
 be performed multiple times.
 
 An *action* (_a~i~_) is a collection of implementation-defined operations that
-must be performed in order to satisfy a requisite.
+must: be performed in order to satisfy a requisite.
 The set of actions for a given <<command-group>> _A_ is permitted to be empty if
 no operation is required to satisfy the requirement.
 The notation _a~i~_ represents the action required to satisfy _r~i~_.
@@ -599,7 +626,7 @@ Host code may wait for the completion of specific event, which blocks execution
 on the host until that event's action has completed.
 Events may also define requisites between <<command-group,command groups>>.
 Using events in this manner informs the runtime that one or more
-<<command-group,command groups>> must complete before another <<command-group>>
+<<command-group,command groups>> must: complete before another <<command-group>>
 may begin executing.
 See <<sub.section.requirement>> for greater detail.
 
@@ -715,10 +742,10 @@ The order of execution of <<command-group>> objects ensures a sequentially
 consistent access to the memory from the different devices to the memory
 objects.
 Accessing a USM allocation does not alter the order of execution.
-Users must explicitly inform the SYCL runtime of any requirements necessary for
+Users must: explicitly inform the SYCL runtime of any requirements necessary for
 a legal execution.
 
-To access a memory object, the user must create an <<accessor>> object which
+To access a memory object, the user must: create an <<accessor>> object which
 parameterizes the type of access to the memory object that a kernel or the host
 requires.
 The <<accessor>> object defines a requirement to access a memory object, and
@@ -801,7 +828,7 @@ All accessors always apply to the entire <<command-group>> object where they are
 defined.
 
 When multiple <<accessor,accessors>> in the same <<command-group>> define
-different requisites to the same memory object these requisites must be
+different requisites to the same memory object these requisites must: be
 resolved.
 
 Firstly, any requisites with different access modes but the same access target
@@ -831,9 +858,9 @@ The rules in <<table.access.mode.union>> are commutative and associative.
 The result of this should be that there should not be any requisites with the
 same access target.
 
-Secondly, the remaining requisites must adhere to the following rule.
+Secondly, the remaining requisites must: adhere to the following rule.
 Only one of the requisites may have write access (_W_ or _RW_), otherwise the
-<<sycl-runtime>> must throw an exception.
+<<sycl-runtime>> must: throw an exception.
 All requisites create a requirement for the data they represent to be made
 available in the specified access target, however only the requisite with write
 access determines the side effects of the <<command-group>>, i.e. only the data
@@ -1037,11 +1064,11 @@ Where SYCL offers extensions to classes and functions that may affect memory
 consistency, the default behavior when these extensions are not used always
 matches the behavior of standard {cpp}.
 
-A SYCL implementation must guarantee that the same memory consistency model is
+A SYCL implementation must: guarantee that the same memory consistency model is
 used across host and device code.
-Every <<device-compiler>> must support the memory model defined by the minimum
+Every <<device-compiler>> must: support the memory model defined by the minimum
 version of {cpp} described in <<sec:progmodel.minimumcppversion>>; SYCL
-implementations supporting additional versions of {cpp} must also support the
+implementations supporting additional versions of {cpp} must: also support the
 corresponding memory models.
 
 Within a work-item, operations are ordered according to the _sequenced before_
@@ -1152,7 +1179,7 @@ supplied.
 The addition of memory scopes to the {cpp} memory model modifies the definition
 of some concepts from the {cpp} core language.
 For example: data races, the synchronizes-with relationship and sequential
-consistency must be defined in a way that accounts for atomic operations with
+consistency must: be defined in a way that accounts for atomic operations with
 differing (but compatible) scopes, in a manner similar to the <<opencl20, OpenCL
 2.0 specification>>.
 Efforts to formalize the memory model of SYCL are ongoing, and a formal memory
@@ -1162,8 +1189,8 @@ model will be included in a future version of the SYCL specification.
 ==== Atomic operations
 
 Atomic operations can be performed on memory in buffers and USM.
-The [code]#sycl::atomic_ref# class must be used to provide safe atomic access to
-the buffer or USM allocation from device code.
+The [code]#sycl::atomic_ref# class may: be used to provide safe atomic access
+to the buffer or USM allocation from device code.
 
 ==== Forward progress
 
@@ -1178,11 +1205,11 @@ weakly parallel forward progress guarantees.
 Whether work-items provide stronger forward progress guarantees is
 implementation-defined.
 
-All implementations must additionally ensure that a work-item arriving at a
+All implementations must: additionally ensure that a work-item arriving at a
 <<group-barrier, group barrier>> does not prevent other work-items in the same
 group from making progress.
 When a work-item arrives at a group barrier acting on group _G_, implementations
-must eventually select and potentially strengthen another work-item in group _G_
+must: eventually select and potentially strengthen another work-item in group _G_
 that has not yet arrived at the barrier.
 
 When a host thread blocks on the completion of a command previously submitted to
@@ -1222,13 +1249,13 @@ architectures with very different binary representations.
 === Minimum version of {cpp}
 
 The {cpp} features used in SYCL are based on a specific version of {cpp}.
-Implementations of SYCL must support this minimum {cpp} version, which defines
+Implementations of SYCL must: support this minimum {cpp} version, which defines
 the {cpp} constructs that can consequently be used by SYCL feature definitions
 (for example, lambdas).
 
 The minimum {cpp} version of this SYCL specification is determined by the
 normative {cpp} core language defined in <<sec:normativerefs>>.
-All implementations of this specification must support at least this core
+All implementations of this specification must: support at least this core
 language, and features within this specification are defined using features of
 the core language.
 Note that not all core language constructs are supported within
@@ -1272,7 +1299,7 @@ These kernels will execute the kernel function body once for each work-item in
 the specified <<range>>.
 
 Functionality tied to <<group, groups>> of work-items, including
-<<group-barrier, group barriers>> and <<local-memory>>, must not be used within
+<<group-barrier, group barriers>> and <<local-memory>>, must not: be used within
 these kernels.
 
 Variables with <<reduction>> semantics can be added to basic data parallel
@@ -1293,8 +1320,8 @@ It is possible to share data among work-items within the same work-group in
 function can be used to block a work-item until all work-items in the same
 work-group arrive at the barrier.
 All work-groups in a given [code]#parallel_for# will be the same size, and the
-global size defined in the nd-range must either be a multiple of the work-group
-size in each dimension, or the global size must be zero.
+global size defined in the nd-range must: either be a multiple of the work-group
+size in each dimension, or the global size must: be zero.
 When the global size is zero, the kernel function is not executed, the local
 size is ignored, and any dependencies are satisfied.
 
@@ -1313,7 +1340,7 @@ Similarly to work-groups, the [code]#group_barrier# function can be used to
 block a work-item until all work-items in the same sub-group arrive at the
 barrier.
 
-Portable device code must not assume that work-items within a sub-group execute
+Portable device code must not: assume that work-items within a sub-group execute
 in any particular order, that work-groups are subdivided into sub-groups in a
 specific way, nor that the work-items within a sub-group provide specific
 forward progress guarantees.
@@ -1359,7 +1386,7 @@ All variables declared inside the [code]#parallel_for_work_group# scope are
 allocated in work-group local memory, whereas all variables declared inside the
 [code]#parallel_for_work_item# scope are declared in private memory.
 All [code]#parallel_for_work_item# calls within a given
-[code]#parallel_for_work_group# execution must have the same dimensions.
+[code]#parallel_for_work_group# execution must: have the same dimensions.
 
 
 === Kernels that are not launched over parallel instances
@@ -1433,7 +1460,7 @@ constructing buffers with other kinds of references to memory, such as
     other queues.
   * _SYCL event objects_: SYCL provides [code]#sycl::event# objects which can be
     used to track and specify dependencies.
-    The <<sycl-runtime>> must ensure that these objects can be used to enforce
+    The <<sycl-runtime>> must: ensure that these objects can be used to enforce
     dependencies that span SYCL contexts from different <<backend, SYCL
     backends>>.
 
@@ -1456,14 +1483,14 @@ See <<sec:managing-object-lifetimes>> for more information on object life time.
 
 A <<group-barrier>> provides a mechanism to coordinate all work-items in the
 same group.
-All work-items in a group must execute the barrier before any are allowed to
+All work-items in a group must: execute the barrier before any are allowed to
 continue execution beyond the barrier.
-Note that the group barrier must be encountered by all work-items of a group
+Note that the group barrier must: be encountered by all work-items of a group
 executing the kernel or by none at all.
 <<work-group-barrier>> and <<sub-group-barrier>> functionality is exposed via
 the [code]#group_barrier# function.
 
-Coordination between work-items in different work-groups must take place via
+Coordination between work-items in different work-groups must: take place via
 atomic operations, and is possible only on SYCL device with certain
 capabilities, as described in <<sec:memoryconsistency>>.
 
@@ -1491,10 +1518,10 @@ specified any asynchronous error handler(s), as described in
 Some <<backend, SYCL backends>> can report errors that are specific to the
 platform they are targeting, or that are more concrete than the errors provided
 by the SYCL API.
-Any error reported by a <<backend>> must derive from the base
+Any error reported by a <<backend>> must: derive from the base
 [code]#sycl::exception#.
 When a user wishes to capture specifically an error thrown by a <<backend>>, she
-must include the <<backend>>-specific headers for said <<backend>>.
+must: include the <<backend>>-specific headers for said <<backend>>.
 
 === Fallback mechanism
 
@@ -1619,11 +1646,11 @@ described in <<sec:progmodel.cpp>>.
 Users only need to include the [code]#<sycl/sycl.hpp># header to write a SYCL
 generic application.
 
-On the other hand, when users follow 2., they must know what <<backend-api>>s
+On the other hand, when users follow 2., they must: know what <<backend-api>>s
 they are using.
 In this case, any header required for the normal programmability of the
 <<backend-api>> is assumed to be available to the user.
-In addition to the [code]#<sycl/sycl.hpp># header, users must also include the
+In addition to the [code]#<sycl/sycl.hpp># header, users must: also include the
 <<backend>>-specific header as defined in <<sec:headers-and-namespaces>>.
 The <<backend>>-specific header provides the interoperability interface for the
 SYCL API to interact with <<native-backend-object,native backend objects>>.
@@ -1660,7 +1687,7 @@ that are stored linearly directly back to back in the same way C or {cpp} stores
 arrays.
 An image object is used to store a one-, two- or three-dimensional texture,
 frame-buffer or image data that may be stored in an optimized and
-device-specific format in memory and must be accessed through specialized
+device-specific format in memory and may: be accessed through specialized
 operations.
 
 Elements of a buffer object can be a scalar data type (such as an [code]#int# or
@@ -1787,7 +1814,7 @@ by the device compiler.
 An implementation could support more than one device compiler, in which case
 each SYCL source file is compiled more than two times.
 The host compiler in this technique could be an off-the-shelf compiler with no
-special knowledge of SYCL, but the device compiler must be SYCL aware.
+special knowledge of SYCL, but the device compiler must: be SYCL aware.
 The device compiler parses the source file to identify each
 <<sycl-kernel-function>> and any <<device-function, device functions>> it calls.
 SYCL is designed so that this analysis can be done statically.
@@ -1804,7 +1831,7 @@ device images>> for the <<sycl-kernel-function, SYCL kernel functions>>, which
 can be read by the <<sycl-runtime>>.
 Each <<device-image>> could either contain native ISA for a device or it could
 contain an intermediate language such as SPIR-V.
-In the later case, the <<sycl-runtime>> must translate the intermediate language
+In the later case, the <<sycl-runtime>> must: translate the intermediate language
 into native device ISA when the <<sycl-kernel-function>> is submitted to a
 device.
 
@@ -1819,7 +1846,7 @@ This type is specified via the <<kernel-name>> template parameter if the
 <<sycl-kernel-function>> is a lambda function, or it is obtained from the class
 type if the <<sycl-kernel-function>> is an object.
 Implementations conformant to the full feature set (<<sec:feature-sets.full>>)
-do not require a <<kernel-name>> at the invocation site, so they must implement
+do not require a <<kernel-name>> at the invocation site, so they must: implement
 some other way to make the association.
 
 
@@ -1860,7 +1887,7 @@ general, no pointers initialized for the host can be used on the device.
 SYCL memory objects, such as [code]#sycl::buffer#,
 [code]#sycl::unsampled_image#, and [code]#sycl::sampled_image#, cannot be passed
 to a kernel.
-Instead, a kernel must interact with these objects through
+Instead, a kernel may: interact with these objects through
 <<accessor,accessors>>.
 No hierarchical structures of these memory object classes are supported and any
 other data containers need to be converted to the SYCL data management classes
@@ -1881,7 +1908,7 @@ between two devices.
 For example, this may occur when a <<command-group>> has a requirement for the
 contents of a buffer or when the application passes certain arguments to a
 <<sycl-kernel-function>> (as described in <<sec:kernel.parameter.passing>>).
-Such data must have a type that is <<device-copyable>> as defined below.
+Such data must: have a type that is <<device-copyable>> as defined below.
 
 Any type that is trivially copyable (as defined by the {cpp} core language) is
 implicitly device copyable.
@@ -1918,7 +1945,7 @@ The types [code]#std::basic_string_view<CharT, Traits># and
 underlying data that is not contained within their type.
 Although these view types are device copyable, the implementation copies just
 the view and not the contained data when doing an inter-device copy.
-In order to reference the contained data after such a copy, the application must
+In order to reference the contained data after such a copy, the application may:
 allocate the contained data in unified shared memory (USM) that is accessible on
 both the host and device (or on both devices in the case of a device-to-device
 copy).
@@ -1926,8 +1953,8 @@ copy).
 
 In addition, the implementation may allow the application to explicitly declare
 certain class types as device copyable.
-If the implementation has this support, it must predefine the preprocessor macro
-[code]#SYCL_DEVICE_COPYABLE# to [code]#1#, and it must not predefine this
+If the implementation has this support, it must: predefine the preprocessor macro
+[code]#SYCL_DEVICE_COPYABLE# to [code]#1#, and it must not: predefine this
 preprocessor macro if it does not have this support.
 When the implementation has this support, a class type [code]#T# is device
 copyable if all of the following statements are true:
@@ -1956,10 +1983,10 @@ It is unspecified whether the implementation actually calls the copy
 constructor, move constructor, copy assignment operator, or move assignment
 operator of a class declared as [code]#is_device_copyable_v# when doing an
 inter-device copy.
-Since these operations must all be the same as a bitwise copy, the
+Since these operations must: all be the same as a bitwise copy, the
 implementation may simply copy the memory where the object resides.
 Likewise, it is unspecified whether the implementation actually calls the
-destructor for such a class on the device since the destructor must have no
+destructor for such a class on the device since the destructor must: have no
 effect on the device.
 ====
 
