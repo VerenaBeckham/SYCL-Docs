@@ -58,6 +58,87 @@ class MustInlineMacro < NormativeInlineMacroBase
     end
 end
 
+class MustInlineMacro < NormativeInlineMacroBase
+    named :mustnot
+    match /must not:(\w*)/
+
+    def text
+        'must not'
+    end
+end
+
+class MustInlineMacro < NormativeInlineMacroBase
+    named :required
+    match /required:(\w*)/
+
+    def text
+        'required'
+    end
+end
+
+class MustInlineMacro < NormativeInlineMacroBase
+    named :should
+    match /should:(\w*)/
+
+    def text
+        'should'
+    end
+end
+
+class MustInlineMacro < NormativeInlineMacroBase
+    named :recommended
+    match /recommended:(\w*)/
+
+    def text
+        'recommended'
+    end
+end
+
+class MustInlineMacro < NormativeInlineMacroBase
+    named :may
+    match /may:(\w*)/
+
+    def text
+        'may'
+    end
+end
+
+class MustInlineMacro < NormativeInlineMacroBase
+    named :optional
+    match /optional:(\w*)/
+
+    def text
+        'optional'
+    end
+end
+
+class MustInlineMacro < NormativeInlineMacroBase
+    named :optionally
+    match /optionally:(\w*)/
+
+    def text
+        'optionally'
+    end
+end
+
+class MustInlineMacro < NormativeInlineMacroBase
+    named :can
+    match /can:(\w*)/
+
+    def text
+        'can'
+    end
+end
+
+class MustInlineMacro < NormativeInlineMacroBase
+    named :cannot
+    match /cannot:(\w*)/
+
+    def text
+        'cannot'
+    end
+end
+
 # Generic reference page link to any entity with an anchor/refpage
 class ReflinkInlineMacro < LinkInlineMacroBase
     named :reflink
