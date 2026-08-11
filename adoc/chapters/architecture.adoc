@@ -1123,12 +1123,6 @@ In SYCL 2020 the memory scope of _A_ and _B_ must additionally be the same for
 the operations to have an inclusive scope.
 From SYCL {SYCL_VERSION} the memory scope of _A_ and _B_ may be different.
 
-[NOTE]
-====
-The addition of memory scopes to the {cpp} memory model modifies the definition
-of some concepts from the {cpp} core language.
-====
-
 ==== Atomic operations
 
 Atomic operations can be performed on memory in buffers and USM.
