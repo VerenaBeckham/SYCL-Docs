@@ -1131,7 +1131,7 @@ for their scopes to be inclusive, but this was relaxed in OpenCL version 3.1.
 As a result, implementations of SYCL 2020 using an OpenCL backend may use the
 older OpenCL semantic, but implementations of {SYCL_VERSION} must use the OpenCL
 3.1 semantic.
-===
+====
 
 ==== Atomic operations
 
